@@ -1,0 +1,11 @@
+{
+  "js": {
+    "allowed_file_extensions": ["js", "json", "jshintrc", "jsbeautifyrc"],
+    "indent_size": 2,
+    "preserve_newlines": true,
+    "space_after_anon_function": true,
+    "space_before_conditional": true,
+    "prettier.jsxBracketSameLine": true,
+    "wrap_line_length": 100
+  }
+}

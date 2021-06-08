@@ -1,0 +1,20 @@
+.env
+passwd
+tmp
+
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+sessions/
+
+.env*

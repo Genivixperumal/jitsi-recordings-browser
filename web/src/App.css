@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.center {
+  height: 50vh; /* Magic here */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  position:"relative";
+  height: 75vh;
+  width: 75vw;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+}
+
+.video-modal {
+  height: 75vh;
+  width: 75vw;
+}
+
+.paddingRight {
+  padding-right: 50px;
+}
+
+.padding {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 65vw;
+}
