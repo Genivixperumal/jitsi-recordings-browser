@@ -4,7 +4,7 @@ const baseURL = process.env.REACT_APP_API_BASEURL;
 
 const axiosInst = baseURL ? axios.create({
   baseURL: baseURL,
-  withCredentials: true
+  withCredentials: true,
 }) : null;
 
 const wrap = f => {
@@ -23,7 +23,7 @@ const authorize = wrap((user, pwd) => {
   const auth = {
     auth: {
       username: user,
-      password: pwd
+      password: pwd,
     }
   };
   return axiosInst.post('/auth', auth);

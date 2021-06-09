@@ -1,3 +1,5 @@
+const errors = require('./errors');
+
 module.exports = {
   printStartup: (dirs) => {
     if (process.env.NODE_ENV === "development") {

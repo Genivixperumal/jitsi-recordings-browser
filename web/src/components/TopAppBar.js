@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, CircularProgress, makeStyles, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Button, CircularProgress, makeStyles } from '@material-ui/core';
 import labels from '../labels';
 
 const useStyles = makeStyles((theme) => ({
