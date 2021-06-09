@@ -4,7 +4,9 @@
 
 .header {
   font-weight: 600;
+  font-size: 2em;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .center {
@@ -14,9 +16,13 @@
   align-items: center;
 }
 
+.hcenter {
+  display: flex;
+  width: 100%;
+}
+
 .vcenter {
   height: 75vh; /* Magic here */
-  /* width: 400px; */
   text-align: initial;
   display: flex;
   justify-content: center;
