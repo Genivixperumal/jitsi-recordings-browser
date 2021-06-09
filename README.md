@@ -52,9 +52,9 @@ Authorizes user.
 
 Parameters (JSON):
 ```JSON
-{ auth: {
-    username: "",
-    password: "",
+{ "auth": {
+    "username": "",
+    "password": "",
 } }
 ```
 
@@ -64,7 +64,7 @@ Probe for the client to determine the session state.
 
 Response: 
 - If no session: `HTTP 401 Unauthorized`
-- If the session exists: `{ 'user': 'username' }`
+- If the session exists: `{ "user": "username" }`
 
 ## GET /download/{recordings\_id} 
 [**requires auth**]
@@ -86,9 +86,9 @@ Response. Array of records with the following fields:
 Example:
 ```json
 [{ 
-  'id': '13', 
-  'date': '2021-04-12T15:38:00.000Z', 
-  'room': 'Alice and Bob meeting'
+  "id": "13", 
+  "date": "2021-04-12T15:38:00.000Z", 
+  "room": "Alice and Bob meeting"
 }]
 ```
 
