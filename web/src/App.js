@@ -11,6 +11,7 @@ import { Error } from '@material-ui/icons';
 import { getUser, logOut } from './utils/API';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import About from './components/About';
+import SignIn from './components/SignIn';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,13 +30,15 @@ function App() {
     console.log("App: effect(): location.pathname="+location.pathname);
     if (location.pathname === '/about') return;
     getUser().then((res) => {
+      console.log("getUser(): success: res="+JSON.stringify(res));
       setLoggedIn(true);
       if (res.data?.user) setUser(res.data.user);
       if (location.pathname !== '/list') {
         history.push('/list');
       }
-    }).catch(() => {
-      setLoggedIn(false);
+    }).catch((e) => {
+      console.log("getUser(): error: e="+e);
+      if (loggedIn) setLoggedIn(false);
       if (location.pathname === '/list') {
         history.push('/login');
       }
@@ -73,7 +76,7 @@ function App() {
         <Switch>
           <Route path="/about" exact component={About} />
           <Route path="/list" exact component={RecordingsScreen} />
-          <Route path="/login" exact component={Auth} />
+          <Route path="/login" exact component={SignIn} />
         </Switch>
       </ThemeProvider>
     </>

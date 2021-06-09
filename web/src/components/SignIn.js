@@ -28,7 +28,7 @@ export default function SignIn({history}) {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container className="vcenter" component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{

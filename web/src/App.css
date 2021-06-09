@@ -20,6 +20,13 @@
   align-items: center;
 }
 
+.vcenter {
+  height: 100vh; /* Magic here */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .modal {
   position:"relative";
   height: 75vh;
