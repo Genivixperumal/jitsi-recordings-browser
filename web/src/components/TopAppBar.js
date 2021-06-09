@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, CircularProgress, makeStyles } from '@material-ui/core';
+import { AppBar, Toolbar, Button, CircularProgress, makeStyles, IconButton } from '@material-ui/core';
 import labels from '../labels';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,24 +18,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopAppBar = ({login, logout, loggedIn, user}) => {
+const TopAppBar = ({login, logout, loggedIn, user, about}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-          News
-          </Typography> */}
+          <Button edge="start"
+            color="inherit" onClick={about}>
+              {labels.about}
+          </Button>
           { loggedIn === null &&
             <CircularProgress />
           }
           { loggedIn === true && user &&
             <Button className={classes.menuButton} color="inherit" onClick={logout}>
               {labels.logout} <span className={classes.user}>{user}</span>
+            </Button>
+          }
+          { loggedIn === false &&
+            <Button className={classes.menuButton} color="inherit" onClick={login}>
+              {labels.signin}
             </Button>
           }
         </Toolbar>

@@ -2,7 +2,7 @@
 const labelsByLang = {
   ru: {
     empty: "Нет видеозаписей",
-    login: "Логин в список видеозаписей сервиса Meet.Gumirov.com",
+    login: "Войти в список видеозаписей на Meet.gumirov.com",
     logout: "Завершить сеанс",
     username: "Пользователь",
     passwd: "Пароль",
@@ -15,6 +15,7 @@ const labelsByLang = {
     filter: "Фильтровать: ",
     after: "Начиная с:",
     before: "Заканчивая:",
+    about: "О сервисе",
   },
   en: {
     empty: "No records exist of found",
@@ -31,6 +32,7 @@ const labelsByLang = {
     filter: "Filter: ",
     after: "Since:",
     before: "Until:",
+    about: "About",
   },
 };
 

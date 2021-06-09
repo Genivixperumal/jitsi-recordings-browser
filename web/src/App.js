@@ -10,6 +10,7 @@ import RecordingsScreen from './components/RecordingsScreen';
 import { Error } from '@material-ui/icons';
 import { getUser, logOut } from './utils/API';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import About from './components/About';
 
 const theme = createMuiTheme({
   palette: {
@@ -21,10 +22,12 @@ function App() {
   const history = useHistory();
   const location = useLocation();
   const [error, setError] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    console.log("App: effect(): location.pathname="+location.pathname);
+    if (location.pathname === '/about') return;
     getUser().then((res) => {
       setLoggedIn(true);
       if (res.data?.user) setUser(res.data.user);
@@ -57,13 +60,18 @@ function App() {
     setLoggedIn(false);
     history.push('/login');
   }
+  const about = (e) => {
+    e.preventDefault();
+    history.push('/about');
+  }
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <TopAppBar user={user} login={login} logout={logout} loggedIn={loggedIn}/>
+        <TopAppBar about={about} user={user} login={login} logout={logout} loggedIn={loggedIn}/>
         { error && <Error message={error}/> }
         <Switch>
+          <Route path="/about" exact component={About} />
           <Route path="/list" exact component={RecordingsScreen} />
           <Route path="/login" exact component={Auth} />
         </Switch>
