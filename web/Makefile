@@ -20,6 +20,7 @@ start :
 
 stop :
 	@docker stop ${CNT}
+	@docker container rm ${CNT}
 
 logs :
 	@docker logs ${CNT}
