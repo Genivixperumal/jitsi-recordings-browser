@@ -2,15 +2,9 @@
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.header {
+  font-weight: 600;
+  text-align: center;
 }
 
 .center {
@@ -21,10 +15,20 @@
 }
 
 .vcenter {
-  height: 100vh; /* Magic here */
+  height: 75vh; /* Magic here */
+  /* width: 400px; */
+  text-align: initial;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.marged {
+  margin: 40px;
+}
+
+.padded {
+  padding: 40px;
 }
 
 .modal {

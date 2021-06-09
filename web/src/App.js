@@ -4,12 +4,11 @@ import { React, useEffect, useState } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ruRU } from '@material-ui/core/locale';
 
-import Auth from './components/Auth';
 import TopAppBar from './components/TopAppBar';
 import RecordingsScreen from './components/RecordingsScreen';
-import { Error } from '@material-ui/icons';
 import { getUser, logOut } from './utils/API';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import About from './components/About';
 import SignIn from './components/SignIn';
 
@@ -38,6 +37,7 @@ function App() {
       }
     }).catch((e) => {
       console.log("getUser(): error: e="+e);
+      setError(e.toString());
       if (loggedIn) setLoggedIn(false);
       if (location.pathname === '/list') {
         history.push('/login');
@@ -72,7 +72,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <TopAppBar about={about} user={user} login={login} logout={logout} loggedIn={loggedIn}/>
-        { error && <Error message={error}/> }
+        { error && <Alert severity="error" variant="filled">{error}</Alert> }
         <Switch>
           <Route path="/about" exact component={About} />
           <Route path="/list" exact component={RecordingsScreen} />

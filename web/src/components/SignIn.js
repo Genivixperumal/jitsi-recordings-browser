@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +7,8 @@ import Container from '@material-ui/core/Container';
 
 import { authorize } from '../utils/API';
 import labels from '../labels';
+import { Alert } from '@material-ui/lab';
+import { Paper } from '@material-ui/core';
 
 export default function SignIn({history}) {
   const [error, setError] = React.useState(null);
@@ -28,15 +29,15 @@ export default function SignIn({history}) {
   };
 
   return (
-    <Container className="vcenter" component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
+    <Container className="vcenter" component="main" maxWidth="sm">
+      <Paper
+        variant="outlined"
         sx={{
-          marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
         }}
+        className="padded marged"
       >
         <Typography component="h1" variant="h5">
           {labels.login}
@@ -70,14 +71,12 @@ export default function SignIn({history}) {
             id="password"
             autoComplete="current-password"
           />
-          { error &&
-            <div>{error}</div>
-          }
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             {labels.signin}
           </Button>
+          { error && <Alert severity="error" variant="standard">{error}</Alert> }
         </Box>
-      </Box>
+      </Paper>
     </Container>
   );
 }
