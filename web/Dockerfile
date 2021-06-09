@@ -29,6 +29,6 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 RUN apk add --no-cache bash
 ARG port
-EXPOSE ${port:-12021} 80/tcp
+EXPOSE 80/tcp
 CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
 
