@@ -9,7 +9,6 @@ RUN npm ci
 
 ADD src src
 ADD public public
-ADD .eslintrc.js jsconfig.json ./
 ARG REACT_APP_BACKEND
 ENV REACT_APP_BACKEND=$REACT_APP_BACKEND
 RUN npm run build
