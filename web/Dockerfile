@@ -9,8 +9,10 @@ RUN npm ci
 
 ADD src src
 ADD public public
-ARG REACT_APP_BACKEND
-ENV REACT_APP_BACKEND=$REACT_APP_BACKEND
+ARG REACT_APP_LANG
+ARG REACT_APP_BASEURL
+ENV REACT_APP_LANG=$REACT_APP_LANG
+ENV REACT_APP_BASEURL=$REACT_APP_BASEURL
 RUN npm run build
 
 WORKDIR /
@@ -29,3 +31,4 @@ RUN apk add --no-cache bash
 ARG port
 EXPOSE ${port:-12021} 80/tcp
 CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
+
