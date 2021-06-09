@@ -1,5 +1,5 @@
 IMAGE:=sgumirov/jitsi-recordings-browser-web
-CNT:=jitsi-recordings-browser-web-container
+CNT:=jitsi-recordings-browser-web
 PORT:=3000
 
 DEFAULT_GOAL: dev
