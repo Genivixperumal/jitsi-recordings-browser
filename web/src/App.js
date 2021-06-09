@@ -26,18 +26,14 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log("App: effect(): location.pathname="+location.pathname);
     if (location.pathname === '/about') return;
     getUser().then((res) => {
-      console.log("getUser(): success: res="+JSON.stringify(res));
       setLoggedIn(true);
       if (res.data?.user) setUser(res.data.user);
       if (location.pathname !== '/list') {
         history.push('/list');
       }
     }).catch((e) => {
-      console.log("getUser(): error: e="+e);
-      setError(e.toString());
       if (loggedIn) setLoggedIn(false);
       if (location.pathname === '/list') {
         history.push('/login');
