@@ -35,7 +35,7 @@ function App() {
       }
     }).catch((e) => {
       if (loggedIn) setLoggedIn(false);
-      if (location.pathname === '/list') {
+      if (location.pathname !== '/login') {
         history.push('/login');
       }
     });

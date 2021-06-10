@@ -19,9 +19,9 @@ const dirs = [];
 
 const watcher = hound.watch(recordingsDir);
 watcher.on('create', function (file, stats) {
-  console.log(file + ' was created. Reloading...');
+  console.log(file + ' was added. Reloading...');
   readAll(dirs, file);
-  console.log("Reloading OK.");
+  console.log("Reloading OK. Found "+dirs.length+" recordings.");
 });
 
 readAll(dirs, recordingsDir);
@@ -42,14 +42,17 @@ const sessionConfig = {
     domain: process.env.DOMAIN,
     path: process.env.COOKIE_PATH,
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 1 month
   },
   name: "sessionIdentifier",
   rolling: true,
   resave: true,
   saveUninitialized: false,
   secret: process.env.SESSION_SECRET,
-  store: new filestore(),
+  store: new filestore({
+    retries: 0,
+    ttl: 60 * 60 * 24 * 30,
+  }),
 };
 const corsConfig = {
   credentials: true,
@@ -57,25 +60,27 @@ const corsConfig = {
   //methods: ["POST", "GET", "DELETE"], //TODO enable
 };
 if (app.get('env') === 'production') {
-  sessionConfig.cookie.secure = true;
   app.set('trust proxy', 1); // trust first proxy
+  sessionConfig.cookie.secure = !(process.env.INSECURE_COOKIES); //undefined -> secure, true -> false
+  if (!sessionConfig.cookie.secure)
+    console.log("\n!!!!!!!!!!!\n! WARNING ! Using insecure (http) cookies in production. This is"+
+                " strongly not recommended.\n!!!!!!!!!!!\n");
 }
 // Check that htpasswd exists:
 if (!fs.existsSync(process.env.HTPASSWD_FILE)) throw new Error(`No htpasswd found at: ${process.env.HTPASSWD_FILE}`);
 // Enable middlewares:
 app.use(helmet()); // this must be the first app.use() call
+utils.setupLogging(app);
 app.use(cors(corsConfig));
 app.use(session(sessionConfig));
 app.use(express.json());
 
 // Endpoints:
 app.get('/recordings', (req, res) => {
-  console.log('/recordings');
   if (utils.checkIfNotAuth(req, res)) return;
   res.json(dirs);
 });
 app.get('/download/*', (req, res) => {
-  console.log('/download');
   if (utils.checkIfNotAuth(req, res)) return;
   const path = req.params[0];
   const stat = fs.statSync(path);
@@ -107,30 +112,24 @@ app.get('/download/*', (req, res) => {
   }
 });
 app.post('/auth', async (req, res) => {
-  console.log('/auth');
   // Disable endpoint for already authorized sessions:
   if (req.session.authorized) return;
   if (req.body?.auth &&
     await checkUserPwd(req.body.auth.username, req.body.auth.password)) {
-    console.log('auth is OK');
     req.session.user = req.body.auth.username;
     req.session.authorized = true;
     res.send({ authorized: true });
   } else {
     const error = (req.body && req.body.auth) ? errors.INCORRECT_PASSWORD : errors.NO_USER_SPECIFIED;
-    console.log('auth error: ' + JSON.stringify(error));
     res.status(401).send(error);
   }
 });
 app.get('/user', (req, res) => {
-  console.log('/user');
   if (utils.checkIfNotAuth(req, res)) res.status(401).end();
   else res.send({ user: req.session.user }).end();
 });
 app.delete('/logout', (req, res) => {
-  console.log('/logout');
   req.session.destroy((err) => {
-    console.log("session.destroy(): err=" + JSON.stringify(err, null, 2));
     res.status(err === null ? 200 : 500).end();
   });
 });

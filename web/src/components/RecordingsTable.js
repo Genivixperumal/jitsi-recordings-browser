@@ -71,10 +71,12 @@ const RecordingsTable = ({ data }) => {
       </TableContainer>
       {videoSrc &&
         <Modal className="modal" open={true} onClose={hideVideo}>
-          <video crossOrigin="use-credentials" className="video-modal"
-              controls autoPlay>
-            <source src={videoSrc} type="video/mp4"></source>
-          </video>
+          <Paper elevation={10}>
+            <video crossOrigin="use-credentials" className="video-modal"
+                controls autoPlay>
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+          </Paper>
         </Modal>
       }
     </>);
