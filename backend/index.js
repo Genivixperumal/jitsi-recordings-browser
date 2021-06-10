@@ -54,6 +54,7 @@ const sessionConfig = {
 const corsConfig = {
   credentials: true,
   origin: process.env.CORS_ORIGIN,
+  //methods: ["POST", "GET", "DELETE"], //TODO enable
 };
 if (app.get('env') === 'production') {
   sessionConfig.cookie.secure = true;
