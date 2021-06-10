@@ -16,14 +16,14 @@ start-local :
 # Production below
 
 build :
-	@docker build . -t ${IMAGE}
+	@docker build --tag ${IMAGE} .
 
 start :
-	@docker run -p ${PORT}:3001 -d --name ${CNT} ${IMAGE} || echo "Error, for details see above. The possible reason is container image wasn't build. Build first with 'make build'"
+	@docker run -p ${PORT}:3001 -d -v ${RECORDINGS}:/app/recordings --name ${CNT} ${IMAGE} || echo "Error, for details see above. The possible reason is container image wasn't build. Build first with 'make build'"
 
 stop :
-	@docker stop ${CNT}
-	@docker container rn ${CNT}
+	@docker stop ${CNT} || echo "nothing to stop"
+	@docker container rm ${CNT}
 
 logs :
 	@docker logs ${CNT}
