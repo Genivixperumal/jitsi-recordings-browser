@@ -14,7 +14,8 @@ const RecordingsScreen = () => {
   const dataLoaded = data => {
     setRecordings(
       data
-        .map(rec => ({...rec, dateObj: new Date(rec.date)}))
+        .map(rec => ({...rec, roomDecoded: decodeURIComponent(rec.room),
+          dateObj: new Date(rec.date)}))
         .sort((a,b) => b.dateObj - a.dateObj)
     );
   };

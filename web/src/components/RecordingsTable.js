@@ -34,7 +34,7 @@ const RecordingsTable = ({ data }) => {
   const fdata = data ? data.filter(rec =>
       filter.dateSince < rec.dateObj &&
       rec.dateObj < filter.dateUntil &&
-      (!filter.roomFilter || rec.room.includes(filter.roomFilter))
+      (!filter.roomFilter || rec.roomDecoded.includes(filter.roomFilter))
     ) : null;
 
   return (
@@ -59,10 +59,10 @@ const RecordingsTable = ({ data }) => {
               <StyledTableRow key={rec.id}>
                 <StyledTableCell align="right">{readableDate(rec.date)}
                 &nbsp;&nbsp;&nbsp;{readableTime(rec.date)}</StyledTableCell>
-                <StyledTableCell align="center">{rec.room}</StyledTableCell>
+                <StyledTableCell align="center">{rec.roomDecoded}</StyledTableCell>
                 <StyledTableCell align="left">
                   <Button className={classes.button}
-                    onClick={() => showVideo(rec.id, rec.room)}>
+                    onClick={() => showVideo(rec.id, rec.roomDecoded)}>
                     {labels.openVideo}
                   </Button>
                 </StyledTableCell>
