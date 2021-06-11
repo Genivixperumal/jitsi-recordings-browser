@@ -36,7 +36,7 @@ const labelsByLang = {
     before: "Until:",
     about: "About",
     back: "Back",
-    roomName: "Meeting name"
+    roomName: "Meeting name",
   },
 };
 
