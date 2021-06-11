@@ -46,5 +46,12 @@ module.exports = {
       }
       )));
     return arr;
-  }
+  },
+  findPath: (path, dirs) => {
+    const p = path.toUpperCase();
+    for (d of dirs) {
+      if (d.id.toUpperCase() === p) return d.id;
+    }
+    return path;
+  },
 };

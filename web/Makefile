@@ -13,14 +13,14 @@ dev :
 # Production below
 
 build :
-	docker build --build-arg REACT_APP_API_BASEURL=${REACT_APP_API_BASEURL} --build-arg REACT_APP_LANG=${REACT_APP_LANG} . -t ${IMAGE}
+	docker build . -t ${IMAGE}
 
 start :
 	@docker run -p ${PORT}:80 -d --name ${CNT} ${IMAGE} || echo "Error, for details see above. The possible reason is container image wasn't build. Build first with 'make build'"
 
 stop :
-	@docker stop ${CNT}
-	@docker container rm ${CNT}
+	@docker stop ${CNT} || echo "no container to stop"
+	@docker container rm ${CNT} || echo "no container to remove"
 
 logs :
 	@docker logs ${CNT}
