@@ -81,6 +81,7 @@ app.use(express.json());
 // Endpoints:
 app.get('/recordings', (req, res) => {
   if (utils.checkIfNotAuth(req, res)) return;
+  console.log("dirs: "+JSON.stringify(dir));
   res.json(dirs);
 });
 app.get('/download/*', (req, res) => {
