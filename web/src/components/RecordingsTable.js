@@ -1,4 +1,5 @@
-import { Button, makeStyles, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, withStyles } from "@material-ui/core";
+import { Button, makeStyles, Modal, Paper, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, withStyles } from "@material-ui/core";
 import ruLocale from "date-fns/locale/ru";
 import { useState } from "react";
 import labels from "../labels";
@@ -18,21 +19,23 @@ const initialFilter = {
 const RecordingsTable = ({ data }) => {
   const classes = useStyles();
   const [videoSrc, setVideoSrc] = useState(null);
+  const [videoName, setVideoName] = useState(null);
   const [filter, setFilter] = useState(initialFilter);
 
-  const showVideo = (id) => {
+  const showVideo = (id, name) => {
     const url = getStreamURL(id);
     setVideoSrc(url);
+    setVideoName(name);
   };
   const hideVideo = () => {
     setVideoSrc(null);
   };
 
   const fdata = data ? data.filter(rec =>
-    filter.dateSince < rec.dateObj &&
-    rec.dateObj < filter.dateUntil &&
-    (!filter.roomFilter || rec.room.includes(filter.roomFilter)))
-      : null;
+      filter.dateSince < rec.dateObj &&
+      rec.dateObj < filter.dateUntil &&
+      (!filter.roomFilter || rec.room.includes(filter.roomFilter))
+    ) : null;
 
   return (
     <>
@@ -59,7 +62,7 @@ const RecordingsTable = ({ data }) => {
                 <StyledTableCell align="center">{rec.room}</StyledTableCell>
                 <StyledTableCell align="left">
                   <Button className={classes.button}
-                    onClick={() => showVideo(rec.id)}>
+                    onClick={() => showVideo(rec.id, rec.room)}>
                     {labels.openVideo}
                   </Button>
                 </StyledTableCell>
@@ -70,14 +73,52 @@ const RecordingsTable = ({ data }) => {
       </TableContainer>
       {videoSrc &&
         <Modal className="modal" open={true} onClose={hideVideo}>
-          <video crossOrigin="use-credentials" className="video-modal"
-              controls autoPlay>
-            <source src={videoSrc} type="video/mp4"></source>
-          </video>
+          <Paper elevation={10}>
+            <div className={classes.header}>
+              <span className={classes.title}>{labels.roomName}: {videoName}</span>
+              <Button variant="outlined" onClick={hideVideo}
+                      className={classes.right}>Close</Button>
+            </div>
+            <video crossOrigin="use-credentials" className="video-modal"
+                controls autoPlay>
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+          </Paper>
         </Modal>
       }
     </>);
 };
+
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontSize: 30,
+    textAlign: "center",
+    textTransform: "none",
+    float: "center",
+  },
+  right: {
+    marginLeft: "auto",
+    marginRight: 0,
+    float: "right",
+    marginBottom: theme.spacing(1),
+  },
+  header: {
+    backgroundColor: theme.palette.primary,
+    padding: theme.spacing(2),
+  },
+  table: {
+    minWidth: 700,
+  },
+  button: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+  },
+}));
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -97,20 +138,5 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-  button: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-  },
-});
 
 export default RecordingsTable;

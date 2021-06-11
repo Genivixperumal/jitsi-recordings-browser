@@ -3,28 +3,38 @@
 Jitsi server allows recording of meetings. However it does not contain
 way to list or download them. Recordings are only saved on disk.
 
-This service helps to provide access for an authenticated user to browse and download recorded meetings using web interface.
+This service helps to provide access for an authenticated user to browse and download
+recorded meetings using web interface.
 
 # How to run locally
 
-For development:
+## For development
+
+Requirements: `make`, `npm`, `node`, `htpasswd`. Recent versions should work fine.
 
 - Prepare configs:
-  - create users with `htpasswd` in `web/.htpasswd`
-  - copy `backend/env.example` => `backend/.env.development` and edit
-  - copy `web/env.example` => `web/.env.development` and edit
+  - create users using `htpasswd` in `web/.htpasswd`
+  - prepare config in `.env` files for both web and backend:
+    - copy `backend/env.example` to `backend/.env.development` and edit
+    - copy `web/env.example` to `web/.env.development` and edit
 - `make dev`
 
-For production:
-- Prepare configs:
-  - create users with `htpasswd` in `web/.htpasswd`
-  - copy `env.example` to `.env` in `./backend` and `web./` dirs
+## For production
+
+Requirements: `docker`, `make`. Optional: `certbot`, `nginx`.
+
+- create users with `htpasswd` in `web/.htpasswd`
+- prepare configs:
+  - copy `env.example` to `.env` in `backend/` and `web/`, and edit
 - `make build`
 - `make start`
+- set up nginx or any other reverse proxy and https certs (Let's Encrypt is a
+recommended way).
 
 ## Known limitations
 
-Currently Jibri has an [issue #283](https://github.com/jitsi/jibri/issues/283) that results in no information is saved on the particpants list in the recording metainfo.
+Currently Jibri has an [issue #283](https://github.com/jitsi/jibri/issues/283) that
+results in no information is saved on the particpants list in the recording metainfo.
 
 Because of Jibri does not leave no metainfo on recordings, there is no way to
 separate access. So any authorized user can access any recording. This is a

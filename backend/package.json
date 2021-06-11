@@ -1,13 +1,16 @@
 {
   "dependencies": {
+    "@fontsource/roboto": "^4.4.5",
     "cors": "^2.8.5",
     "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
     "express-generator": "^4.2.0",
     "express-session": "^1.17.1",
+    "express-winston": "^4.1.0",
     "helmet": "^4.6.0",
     "hound": "^1.0.5",
     "htpasswd-js": "^1.0.2",
-    "session-file-store": "^1.5.0"
+    "session-file-store": "^1.5.0",
+    "winston": "^3.3.3"
   }
 }
