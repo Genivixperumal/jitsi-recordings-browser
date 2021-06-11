@@ -20,7 +20,7 @@ const dirs = [];
 const watcher = hound.watch(recordingsDir);
 watcher.on('create', function (file, stats) {
   console.log(file + ' was added. Reloading...');
-  readAll(dirs, recordingsDir);
+  readAll(dirs, file);
   console.log("Reloading OK. Found "+dirs.length+" recordings.");
 });
 
