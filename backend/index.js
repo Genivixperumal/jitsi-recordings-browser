@@ -65,6 +65,9 @@ if (app.get('env') === 'production') {
   if (!sessionConfig.cookie.secure)
     console.log("\n!!!!!!!!!!!\n! WARNING ! Using insecure (http) cookies in production. This is"+
                 " strongly not recommended.\n!!!!!!!!!!!\n");
+} else if (app.get('env') === 'development') {
+  console.log("DEVELOPMENT MODE: using non-secure http-cookies");
+  sessionConfig.cookie.secure = false;
 }
 // Check that htpasswd exists:
 if (!fs.existsSync(process.env.HTPASSWD_FILE)) throw new Error(`No htpasswd found at: ${process.env.HTPASSWD_FILE}`);
