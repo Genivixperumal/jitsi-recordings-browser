@@ -17,6 +17,7 @@ const labelsByLang = {
     before: "Заканчивая:",
     about: "О сервисе",
     back: "Назад",
+    roomName: "Название",
   },
   en: {
     empty: "No records exist of found",
@@ -35,6 +36,7 @@ const labelsByLang = {
     before: "Until:",
     about: "About",
     back: "Back",
+    roomName: "Meeting name"
   },
 };
 

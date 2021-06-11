@@ -39,16 +39,16 @@
 
 .modal {
   position: relative;
-  height: 80vh;
-  width: 80vw;
+  height: 75vh;
+  width: 75vw;
   justify-content: center;
   margin: auto;
   align-items: center;
 }
 
 .video-modal {
-  height: 80vh;
-  width: 80vw;
+  height: 75vh;
+  width: 75vw;
 }
 
 .paddingRight {

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@fontsource/roboto": "^4.4.5",
     "cors": "^2.8.5",
     "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
