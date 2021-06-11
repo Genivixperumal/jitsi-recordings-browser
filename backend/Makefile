@@ -8,10 +8,10 @@ DEFAULT_GOAL: dev
 # Development below
 
 dev : 
-	NODE_ENV=development node index.js
+	NODE_ENV=development node src/index.js
 
 start-local :
-	node index.js
+	node src/index.js
 
 # Production below
 

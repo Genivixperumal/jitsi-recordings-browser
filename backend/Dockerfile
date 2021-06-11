@@ -8,5 +8,5 @@ RUN npm ci --only=production
 COPY . .
 EXPOSE 3001/tcp
 
-CMD [ "node", "index.js" ]
+CMD [ "node", "src/index.js" ]
 
