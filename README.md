@@ -13,7 +13,7 @@ recorded meetings using web interface.
 Requirements: `make`, `npm`, `node`, `htpasswd`. Recent versions should work fine.
 
 - Prepare configs:
-  - create users using `htpasswd` in `web/.htpasswd`
+  - create users using `htpasswd` in `web/.htpasswd` (see htpasswd help for details)
   - prepare config in `.env` files for both web and backend:
     - copy `backend/env.example` to `backend/.env.development` and edit
     - copy `web/env.example` to `web/.env.development` and edit
@@ -24,10 +24,10 @@ Requirements: `make`, `npm`, `node`, `htpasswd`. Recent versions should work fin
 Requirements: `docker`, `make`. Optional: `certbot`, `nginx`.
 
 - create users with `htpasswd` in `web/.htpasswd`
-- prepare configs:
-  - copy `env.example` to `.env` in `backend/` and `web/`, and edit
-- `make build`
-- `make start`
+- prepare configs: copy `env.example` to `.env` in `backend/` and `web/`, and edit
+- in web: `make build start`
+- in backend (yes, please specify dir via env var to bind it as volume): 
+  `RECORDINGS=/home/user/.jitsi-meet-cfg/jibri/recordings make build start`
 - set up nginx or any other reverse proxy and https certs (Let's Encrypt is a
 recommended way).
 
