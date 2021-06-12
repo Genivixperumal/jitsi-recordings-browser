@@ -22,8 +22,8 @@ start :
 	@docker run -p ${PORT}:3001 -d -v ${RECORDINGS}:/app/recordings --name ${CNT} ${IMAGE} || echo "Error, for details see above. The possible reason is container image wasn't build. Build first with 'make build'"
 
 stop :
-	@docker stop ${CNT} || echo "nothing to stop"
-	@docker container rm ${CNT}
+	@docker stop ${CNT} || echo "no container to stop"
+	@docker container rm ${CNT} || echo "no container to remove"
 
 logs :
 	@docker logs ${CNT}
