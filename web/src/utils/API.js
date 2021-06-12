@@ -38,6 +38,7 @@ const logOut = wrap(() => {
 });
 
 function getStreamURL(id) {
+  console.log("getStreamURL(): id="+id);
   return baseURL ? `${baseURL}/download/${id}` : null;
 }
 

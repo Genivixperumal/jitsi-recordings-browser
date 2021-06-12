@@ -57,20 +57,22 @@ const sessionConfig = {
 const corsConfig = {
   credentials: true,
   origin: process.env.CORS_ORIGIN,
-  //methods: ["POST", "GET", "DELETE"], //TODO enable
+  methods: ["POST", "GET", "DELETE"],
 };
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1); // trust first proxy
   sessionConfig.cookie.secure = !(process.env.INSECURE_COOKIES); //undefined -> secure, true -> false
   if (!sessionConfig.cookie.secure)
-    console.log("\n!!!!!!!!!!!\n! WARNING ! Using insecure (http) cookies in production. This is"+
-                " strongly not recommended.\n!!!!!!!!!!!\n");
+    console.log("\n###########\n# WARNING #"+
+                " Using insecure (http) cookies in production. This is"+
+                " strongly not recommended.\n###########\n");
 } else if (app.get('env') === 'development') {
   console.log("DEVELOPMENT MODE: using non-secure http-cookies");
   sessionConfig.cookie.secure = false;
-}
+} else console.log("Warning: an unknown environment: "+app.get('env'));
 // Check that htpasswd exists:
-if (!fs.existsSync(process.env.HTPASSWD_FILE)) throw new Error(`No htpasswd found at: ${process.env.HTPASSWD_FILE}`);
+if (!fs.existsSync(process.env.HTPASSWD_FILE))
+  throw new Error(`No htpasswd found at: ${process.env.HTPASSWD_FILE}`);
 // Enable middlewares:
 app.use(helmet()); // this must be the first app.use() call
 utils.setupLogging(app);
@@ -81,7 +83,7 @@ app.use(express.json());
 // Endpoints:
 app.get('/recordings', (req, res) => {
   if (utils.checkIfNotAuth(req, res)) return;
-  console.log("dirs: "+JSON.stringify(dir));
+  console.log("dirs: "+JSON.stringify(dirs));
   res.json(dirs);
 });
 app.get('/download/*', (req, res) => {
@@ -137,6 +139,7 @@ app.delete('/logout', (req, res) => {
     res.status(err === null ? 200 : 500).end();
   });
 });
+
 app.listen(PORT, () => {
   console.log('Server started on port: ' + PORT);
 });
