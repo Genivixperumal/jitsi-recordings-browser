@@ -62,6 +62,7 @@ const corsConfig = {
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1); // trust first proxy
   sessionConfig.cookie.secure = !(process.env.INSECURE_COOKIES); //undefined -> secure, true -> false
+  sessionConfig.proxy = true; //undefined -> secure, true -> false
   if (!sessionConfig.cookie.secure)
     console.log("\n###########\n# WARNING #"+
                 " Using insecure (http) cookies in production. This is"+
@@ -87,7 +88,8 @@ app.get('/recordings', (req, res) => {
 });
 app.get('/download/*', (req, res) => {
   if (utils.checkIfNotAuth(req, res)) return;
-  const path = findPath(encodeURI(req.params[0]), dirs);
+  const path = "/"+findPath(encodeURI(req.params[0]), dirs);
+  console.log("download: path=["+path+"]");
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;

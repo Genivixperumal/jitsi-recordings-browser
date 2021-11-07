@@ -1,0 +1,4 @@
+resources:
+  - ports:
+    - tcp:
+      - 13043 # http

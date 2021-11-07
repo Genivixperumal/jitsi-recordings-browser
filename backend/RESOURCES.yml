@@ -1,0 +1,6 @@
+resources:
+  - ports:
+    - tcp:
+      - 13042 # http
+  - volumes:
+    - /opt/data/jitsi/.jitsi-meet-cfg/jibri/recordings -> /recordings
