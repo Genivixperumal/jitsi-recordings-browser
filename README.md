@@ -104,7 +104,7 @@ Example:
 
 # Author
 
-Copyright (C) 2021 by [Shamil Gumirov](https://shamil.gumirov.org). All rights reserved.
+Copyright (C) 2021, 2022 by [Shamil Gumirov](https://shamil.gumirov.org). All rights reserved.
 
 # License
 
