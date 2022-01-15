@@ -16,12 +16,12 @@ const parseDateAndRoom = (path) => {
   if (res && res.length > 0 && res[0].length > 2) {
     const [, year, month, day, rawHour, min, sec] = datePattern.exec(res[0][2]);
     const parsedDate = new Date(`${year}-${month}-${day}T${('0'+rawHour).slice(-2)}:${min}:${sec}+02:00`);
-    const fullFileName = path+"/"+res[0][0];
+    const fullFileName = res[0][0];
     return {
       date: parsedDate.toJSON(),
       name: res[0][1] + "",
       fullFileName: fullFileName,
-      size: statSync(fullFileName).size,
+      size: statSync(path + '/' + fullFileName).size,
     };
   }
   return null;
@@ -47,7 +47,7 @@ module.exports = {
       .map(dirent => parseDateAndRoom(dir + '/' + dirent.name))
       .filter(parseResult => parseResult !== null)
       .map(res => ({
-        id: res.fullFileName,
+        id: dir+"/"+res.fullFileName,
         room: res.name,
         date: res.date,
         size: res.size,
