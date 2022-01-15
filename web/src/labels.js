@@ -18,6 +18,8 @@ const labelsByLang = {
     about: "О сервисе",
     back: "Назад",
     roomName: "Название",
+    download: "Скачать",
+    close: "Закрыть",
   },
   en: {
     empty: "No records exist of found",
@@ -37,6 +39,8 @@ const labelsByLang = {
     about: "About",
     back: "Back",
     roomName: "Meeting name",
+    download: "Download",
+    close: "Close",
   },
 };
 

@@ -1,9 +1,11 @@
 import { Button, makeStyles, Modal, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, withStyles } from "@material-ui/core";
 import ruLocale from "date-fns/locale/ru";
+// import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState } from "react";
 import labels from "../labels";
-import { getStreamURL } from "../utils/API";
+import { getStreamURL, getDownloadURL } from "../utils/API";
 import Filter from "./Filter";
 import { format } from 'date-fns';
 
@@ -17,18 +19,25 @@ const initialFilter = {
 };
 
 const RecordingsTable = ({ data }) => {
+  // const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
   const [videoSrc, setVideoSrc] = useState(null);
+  const [videoDownload, setVideoDownload] = useState(null);
   const [videoName, setVideoName] = useState(null);
   const [filter, setFilter] = useState(initialFilter);
 
   const showVideo = (id, name) => {
     const url = getStreamURL(id);
+    const downloadUrl = getDownloadURL(id);
     setVideoSrc(url);
+    setVideoDownload(downloadUrl);
     setVideoName(name);
   };
   const hideVideo = () => {
     setVideoSrc(null);
+    setVideoDownload(null);
+    setVideoName(null);
   };
 
   const fdata = data ? data.filter(rec =>
@@ -77,7 +86,12 @@ const RecordingsTable = ({ data }) => {
             <div className={classes.header}>
               <span className={classes.title}>{labels.roomName}: {videoName}</span>
               <Button variant="outlined" onClick={hideVideo}
-                      className={classes.right}>Close</Button>
+                      className={classes.right}>{labels.close}</Button>
+              <a className={classes.mRight} href={videoDownload}
+                  download={videoName}>{labels.download}
+                <Button variant="outlined" className={classes.right}>
+                  {labels.download}</Button>
+              </a>
             </div>
             <video crossOrigin="use-credentials" className="video-modal"
                 controls autoPlay>
@@ -101,6 +115,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 0,
     float: "right",
     marginBottom: theme.spacing(1),
+  },
+  mRight: {
+    marginRight: 20,
   },
   header: {
     backgroundColor: theme.palette.primary,

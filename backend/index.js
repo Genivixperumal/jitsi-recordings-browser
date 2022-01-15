@@ -81,18 +81,17 @@ app.use(cors(corsConfig));
 app.use(session(sessionConfig));
 app.use(express.json());
 
-// Endpoints:
-app.get('/recordings', (req, res) => {
-  if (utils.checkIfNotAuth(req, res)) return;
-  res.json(dirs);
-});
-app.get('/download/*', (req, res) => {
+//Common request handler for streaming and download
+const download = (isStream, req, res) => {
   if (utils.checkIfNotAuth(req, res)) return;
   const path = "/"+findPath(encodeURI(req.params[0]), dirs);
   console.log("download: path=["+path+"]");
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
+  // Download with "save as" dialog requires:
+  //1. Content type to be application/octet-stream, ...
+  const contentType = isStream ? 'video/mp4' : 'application/octet-stream';
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
     const start = parseInt(parts[0], 10);
@@ -105,18 +104,34 @@ app.get('/download/*', (req, res) => {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunksize,
-      'Content-Type': 'video/mp4',
+      'Content-Type': contentType,
     };
+    //2. ...and Content-Disposition: attachment
+    if (!isStream) head['Content-Disposition'] = 'attachment';
     res.writeHead(206, head);
     file.pipe(res);
   } else {
     const head = {
       'Content-Length': fileSize,
-      'Content-Type': 'video/mp4',
+      'Content-Type': contentType,
     };
+    //2. ...and Content-Disposition: attachment
+    if (!isStream) head['Content-Disposition'] = 'attachment';
     res.writeHead(200, head);
     fs.createReadStream(path).pipe(res);
   }
+};
+
+// Endpoints:
+app.get('/recordings', (req, res) => {
+  if (utils.checkIfNotAuth(req, res)) return;
+  res.json(dirs);
+});
+app.get('/stream/*', (req, res) => {
+  download(true, req, res);
+});
+app.get('/download/*', (req, res) => {
+  download(false, req, res);
 });
 app.post('/auth', async (req, res) => {
   // Disable endpoint for already authorized sessions:

@@ -38,7 +38,11 @@ const logOut = wrap(() => {
 });
 
 function getStreamURL(id) {
+  return baseURL ? `${baseURL}/stream/${id}` : null;
+}
+
+function getDownloadURL(id) {
   return baseURL ? `${baseURL}/download/${id}` : null;
 }
 
-export { loadMedia, authorize, getUser, logOut, getStreamURL };
+export { loadMedia, authorize, getUser, logOut, getStreamURL, getDownloadURL };
