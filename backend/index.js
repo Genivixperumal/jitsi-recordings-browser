@@ -22,6 +22,9 @@ watcher.on('create', function (file, stats) {
   console.log(file + ' was added. Reloading...');
   readAll(dirs, recordingsDir);
   console.log("Reloading OK. Found "+dirs.length+" recordings.");
+  if (app.get('env') === 'development') {
+    console.log('Dump dirs: '+JSON.stringify(dirs));
+  }
 });
 
 readAll(dirs, recordingsDir);
