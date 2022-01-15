@@ -9,7 +9,7 @@ const fs = require('fs');
 const { exit } = require('process');
 
 const { checkUserPwd } = require('./auth');
-const { readAll, findPath } = require('./dir_scan');
+const { readAll, findPathIgnoreCase } = require('./dir_scan');
 const errors = require('./errors');
 const utils = require('./utils');
 
@@ -22,9 +22,6 @@ watcher.on('create', function (file, stats) {
   console.log(file + ' was added. Reloading...');
   readAll(dirs, recordingsDir);
   console.log("Reloading OK. Found "+dirs.length+" recordings.");
-  if (app.get('env') === 'development') {
-    console.log('Dump dirs: '+JSON.stringify(dirs));
-  }
 });
 
 readAll(dirs, recordingsDir);
@@ -88,7 +85,7 @@ app.use(express.json());
 //Common request handler for streaming and download
 const download = (isStream, req, res) => {
   if (utils.checkIfNotAuth(req, res)) return;
-  const path = findPath(encodeURI(req.params[0]), dirs);
+  const path = recordingsDir+"/"+findPathIgnoreCase(encodeURI(req.params[0]), dirs);
   console.log("download: isStream="+isStream+" path=["+path+"]");
   const stat = fs.statSync(path);
   const fileSize = stat.size;

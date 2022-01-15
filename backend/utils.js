@@ -9,6 +9,7 @@ module.exports = {
       console.log('=== WARNING: DEVELOPMENT CONFIGURATION IS ACTIVE ===');
     }
     console.log('Found: ' + dirs.length + ' recordings.');
+    console.log('Dump dirs: '+JSON.stringify(dirs, null, 2));
   },
   checkIfNotAuth: (req, res) => {
     if (!req.session || !req.session.authorized) {

@@ -24,6 +24,7 @@ const parseDateAndRoom = (base, dir) => {
       fullFileName: dir+"/"+fullFileName,
       size: statSync(path + '/' + fullFileName).size,
       fileName: fullFileName.replace(/^.*[\\\/]/, ''),
+      dir: dir,
     };
     console.log("parseDate("+path+"): result: "+JSON.stringify(result));
     return result;
@@ -52,7 +53,7 @@ module.exports = {
       .map(dirent => parseDateAndRoom(dir, dirent.name))
       .filter(parseResult => parseResult !== null)
       .map(res => ({
-        id: dir+"/"+res.fullFileName,
+        id: res.dir + "/" + res.fileName,
         room: res.name,
         date: res.date,
         size: res.size,
@@ -61,7 +62,7 @@ module.exports = {
       )));
     return arr;
   },
-  findPath: (path, dirs) => {
+  findPathIgnoreCase: (path, dirs) => {
     const p = path.toUpperCase();
     for (d of dirs) {
       if (d.id.toUpperCase() === p) return d.id;
