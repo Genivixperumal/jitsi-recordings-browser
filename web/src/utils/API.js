@@ -38,7 +38,16 @@ const logOut = wrap(() => {
 });
 
 function getStreamURL(id) {
+  return baseURL ? `${baseURL}/stream/${id}` : null;
+}
+
+function getDownloadURL(id) {
   return baseURL ? `${baseURL}/download/${id}` : null;
 }
 
-export { loadMedia, authorize, getUser, logOut, getStreamURL };
+/** Relative path (not full absolute URL) */
+function getDownloadPath(id) {
+  return baseURL ? `${baseURL}/download/${id}` : null;
+}
+
+export { loadMedia, authorize, getUser, logOut, getStreamURL, getDownloadURL, getDownloadPath };
