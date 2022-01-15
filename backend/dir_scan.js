@@ -1,9 +1,13 @@
-const { readdirSync } = require('fs');
+const { statSync, readdirSync } = require('fs');
 
 const dateAndRoomRegexp = /(.*)_(\d+(-\d+){5})(\....)/;
 const datePattern = /^(\d{4})-(\d{2})-(\d{2})-(\d{1,2})-(\d{2})-(\d{2})$/;
 /**
- *  @returns null or { date: .., name: .. }
+ * @returns null or array of objects with fields:
+ * * date - meeting date
+ * * name - room/meeting name
+ * * fullFileName - full path to file name
+ * * size - size of recording in bytes
  */
 const parseDateAndRoom = (path) => {
   const res = readdirSync(path, { withFileTypes: true })
@@ -12,25 +16,28 @@ const parseDateAndRoom = (path) => {
   if (res && res.length > 0 && res[0].length > 2) {
     const [, year, month, day, rawHour, min, sec] = datePattern.exec(res[0][2]);
     const parsedDate = new Date(`${year}-${month}-${day}T${('0'+rawHour).slice(-2)}:${min}:${sec}+02:00`);
-
+    const fullFileName = path+"/"+res[0][0];
     return {
       date: parsedDate.toJSON(),
       name: res[0][1] + "",
-      fullFileName: path+"/"+res[0][0],
+      fullFileName: fullFileName,
+      size: statSync(fullFileName).size,
     };
   }
   return null;
 };
 
-/**
- * Returns array:
- * [{
- *   id: dir name,
- *   date: string,
- *   room: string
- * }]
- */
 module.exports = {
+  /**
+   * Returns array of:
+   * [{
+   *   id: dir name,
+   *   date: string,
+   *   room: string,
+   *   size: number,
+   *   filename: string, //for example, 'abc.mp4'. for download
+   * }]
+   */
   readAll: (arr, dir) => {
     arr.length = 0; //clear array according to:
     // https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
@@ -43,6 +50,8 @@ module.exports = {
         id: res.fullFileName,
         room: res.name,
         date: res.date,
+        size: res.size,
+        fileName: res.fullFileName.replace(/^.*[\\\/]/, ''),
       }
       )));
     return arr;

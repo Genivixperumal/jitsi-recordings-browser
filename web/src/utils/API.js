@@ -45,4 +45,9 @@ function getDownloadURL(id) {
   return baseURL ? `${baseURL}/download/${id}` : null;
 }
 
-export { loadMedia, authorize, getUser, logOut, getStreamURL, getDownloadURL };
+/** Relative path (not full absolute URL) */
+function getDownloadPath(id) {
+  return baseURL ? `${baseURL}/download/${id}` : null;
+}
+
+export { loadMedia, authorize, getUser, logOut, getStreamURL, getDownloadURL, getDownloadPath };

@@ -1,11 +1,9 @@
 import { Button, makeStyles, Modal, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, withStyles } from "@material-ui/core";
 import ruLocale from "date-fns/locale/ru";
-// import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { useState } from "react";
 import labels from "../labels";
-import { getStreamURL, getDownloadURL } from "../utils/API";
+import { getStreamURL, getDownloadPath } from "../utils/API";
 import Filter from "./Filter";
 import { format } from 'date-fns';
 
@@ -19,25 +17,29 @@ const initialFilter = {
 };
 
 const RecordingsTable = ({ data }) => {
-  // const history = useHistory();
-  const location = useLocation();
   const classes = useStyles();
   const [videoSrc, setVideoSrc] = useState(null);
   const [videoDownload, setVideoDownload] = useState(null);
   const [videoName, setVideoName] = useState(null);
   const [filter, setFilter] = useState(initialFilter);
+  const [size, setSize] = useState(null); //download video file size
+  const [downloadFile, setDownloadFile] = useState(null); //download video file name
 
-  const showVideo = (id, name) => {
+  const showVideo = (id, name, size, file) => {
     const url = getStreamURL(id);
-    const downloadUrl = getDownloadURL(id);
+    const downloadUrl = getDownloadPath(id);
     setVideoSrc(url);
     setVideoDownload(downloadUrl);
     setVideoName(name);
+    setSize(size);
+    setDownloadFile(file);
   };
   const hideVideo = () => {
     setVideoSrc(null);
     setVideoDownload(null);
     setVideoName(null);
+    setSize(null);
+    setDownloadFile(null);
   };
 
   const fdata = data ? data.filter(rec =>
@@ -56,10 +58,11 @@ const RecordingsTable = ({ data }) => {
               <StyledTableCell align="right">{labels.date}</StyledTableCell>
               <StyledTableCell align="center">{labels.meetingName}</StyledTableCell>
               <StyledTableCell align="left">{labels.files}</StyledTableCell>
+              <StyledTableCell align="left">{labels.size}</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            { fdata && fdata.length === 0 &&
+            { (!fdata || fdata.length === 0) &&
               <div className="center">
                 {labels.empty}
               </div>
@@ -71,10 +74,11 @@ const RecordingsTable = ({ data }) => {
                 <StyledTableCell align="center">{rec.roomDecoded}</StyledTableCell>
                 <StyledTableCell align="left">
                   <Button className={classes.button}
-                    onClick={() => showVideo(rec.id, rec.roomDecoded)}>
+                    onClick={() => showVideo(rec.id, rec.roomDecoded, rec.sizeDecoded, rec.fileName)}>
                     {labels.openVideo}
                   </Button>
                 </StyledTableCell>
+                <StyledTableCell align="left">{rec.sizeDecoded}</StyledTableCell>
               </StyledTableRow>
             )}
           </TableBody>
@@ -87,10 +91,9 @@ const RecordingsTable = ({ data }) => {
               <span className={classes.title}>{labels.roomName}: {videoName}</span>
               <Button variant="outlined" onClick={hideVideo}
                       className={classes.right}>{labels.close}</Button>
-              <a className={classes.mRight} href={videoDownload}
-                  download={videoName}>{labels.download}
-                <Button variant="outlined" className={classes.right}>
-                  {labels.download}</Button>
+              <a className={classes.rightWithGap} href={videoDownload}
+                  download={downloadFile}>
+                <Button variant="outlined">{labels.download} ({size})</Button>
               </a>
             </div>
             <video crossOrigin="use-credentials" className="video-modal"
@@ -113,6 +116,12 @@ const useStyles = makeStyles((theme) => ({
   right: {
     marginLeft: "auto",
     marginRight: 0,
+    float: "right",
+    marginBottom: theme.spacing(1),
+  },
+  rightWithGap: {
+    marginLeft: "auto",
+    marginRight: 10,
     float: "right",
     marginBottom: theme.spacing(1),
   },

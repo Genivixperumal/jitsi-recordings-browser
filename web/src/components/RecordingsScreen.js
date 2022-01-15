@@ -12,10 +12,15 @@ const RecordingsScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const dataLoaded = data => {
+    //decode room name and date
     setRecordings(
       data
-        .map(rec => ({...rec, roomDecoded: decodeURIComponent(rec.room),
-          dateObj: new Date(rec.date)}))
+        .map(rec => ({...rec,
+          roomDecoded: decodeURIComponent(rec.room),
+          dateObj: new Date(rec.date),
+          sizeDecoded: rec.size ? (rec.size/(1024.0*1024.0)).toFixed(2)+" Mb" : "",
+          fileName: rec.fileName,
+        }))
         .sort((a,b) => b.dateObj - a.dateObj)
     );
   };

@@ -20,6 +20,7 @@ const labelsByLang = {
     roomName: "Название",
     download: "Скачать",
     close: "Закрыть",
+    size: "Размер",
   },
   en: {
     empty: "No records exist of found",
@@ -41,6 +42,7 @@ const labelsByLang = {
     roomName: "Meeting name",
     download: "Download",
     close: "Close",
+    size: "Size",
   },
 };
 

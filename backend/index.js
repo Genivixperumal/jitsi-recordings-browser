@@ -70,6 +70,7 @@ if (app.get('env') === 'production') {
 } else if (app.get('env') === 'development') {
   console.log("DEVELOPMENT MODE: using non-secure http-cookies");
   sessionConfig.cookie.secure = false;
+  sessionConfig.cookie.sameSite = 'lax';
 } else console.log("Warning: an unknown environment: "+app.get('env'));
 // Check that htpasswd exists:
 if (!fs.existsSync(process.env.HTPASSWD_FILE))
@@ -84,8 +85,8 @@ app.use(express.json());
 //Common request handler for streaming and download
 const download = (isStream, req, res) => {
   if (utils.checkIfNotAuth(req, res)) return;
-  const path = "/"+findPath(encodeURI(req.params[0]), dirs);
-  console.log("download: path=["+path+"]");
+  const path = findPath(encodeURI(req.params[0]), dirs);
+  console.log("download: isStream="+isStream+" path=["+path+"]");
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
