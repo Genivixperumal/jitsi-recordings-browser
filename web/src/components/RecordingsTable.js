@@ -78,7 +78,12 @@ const RecordingsTable = ({ data }) => {
                     {labels.openVideo}
                   </Button>
                 </StyledTableCell>
-                <StyledTableCell align="left">{rec.sizeDecoded}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {rec.sizeDecoded}
+                  <a className={classes.leftMargin} href={getDownloadPath(rec.id)} download={rec.fileName}>
+                    <Button className={classes.button}>{labels.download}</Button>
+                  </a>
+                </StyledTableCell>
               </StyledTableRow>
             )}
           </TableBody>
@@ -112,6 +117,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     textTransform: "none",
     float: "center",
+  },
+  leftMargin: {
+    marginLeft: 20,
   },
   right: {
     marginLeft: "auto",
